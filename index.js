@@ -20,6 +20,10 @@ var KindaProxy = KindaObject.extend('KindaProxy', function() {
       if (!hostname)
         throw new Error("hostname is missing in '" + route.from + "'");
       var port = parseInt(parsedFrom.port) || 80;
+      if (process.getuid() !== 0) {
+        util.log(route.from + 'ignored because you are not root');
+        return;
+      }
       this.routes.push({
         from: { hostname: hostname, port: port },
         to: route.to
