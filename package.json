@@ -1,0 +1,21 @@
+{
+  "name": "kinda-proxy",
+  "version": "0.1.0",
+  "description": "...",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kinda/kinda-proxy"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "http-proxy": "^1.3.0",
+    "kinda-config": "https://github.com/kinda/kinda-config/tarball/master",
+    "kinda-object": "^0.1.2",
+    "kinda-util": "https://github.com/kinda/kinda-util/tarball/master"
+  }
+}
