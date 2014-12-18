@@ -55,17 +55,21 @@ var KindaProxy = KindaObject.extend('KindaProxy', function() {
       if (route.from.hostname === hostname && route.from.port === port)
         return true;
     });
-    if (!route) {
-      util.error("route '" + hostname + ':' + port + "' is undefined");
+    if (route) {
+      proxy.web(req, res, { target: route.to }, function(err) {
+        util.error(
+          'Internal Error (' + err.message + '): ' +
+          req.headers.host + req.url
+        );
+        res.statusCode = 500
+        res.end('Internal Error');
+      });
+    } else {
+      util.error('Not Found Error: ' + req.headers.host + req.url);
       res.statusCode = 404
       res.end('Not Found');
       return;
     }
-    proxy.web(req, res, { target: route.to }, function(err) {
-      util.error(err);
-      res.statusCode = 500
-      res.end('Internal Error');
-    });
   };
 });
 
