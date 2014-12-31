@@ -5,7 +5,7 @@ var nodeURL = require('url');
 var _ = require('lodash');
 var httpProxy = require('http-proxy');
 var KindaObject = require('kinda-object');
-var util = require('kinda-util').create();
+var log = require('kinda-log').create();
 var config = require('kinda-config').get('kinda-proxy');
 
 var proxy = httpProxy.createProxyServer({});
@@ -21,7 +21,7 @@ var KindaProxy = KindaObject.extend('KindaProxy', function() {
         throw new Error("hostname is missing in '" + route.from + "'");
       var port = parseInt(parsedFrom.port) || 80;
       if (port === 80 && process.getuid() !== 0) {
-        util.log(route.from + ' ignored because you are not root');
+        log.info(route.from + ' ignored because you are not root');
         return;
       }
       this.routes.push({
@@ -37,10 +37,10 @@ var KindaProxy = KindaObject.extend('KindaProxy', function() {
     _.forEach(this.listeningPorts, function(port) {
       var server = http.createServer(this.handler.bind(this));
       server.on('listening', function() {
-        util.log('Listening on port ' + port);
+        log.info('Listening on port ' + port);
       });
       server.on('error', function(err) {
-        util.error(err);
+        log.error(err);
       });
       server.listen(port);
     }, this);
@@ -57,7 +57,7 @@ var KindaProxy = KindaObject.extend('KindaProxy', function() {
     });
     if (route) {
       proxy.web(req, res, { target: route.to }, function(err) {
-        util.error(
+        log.error(
           'Internal Error (' + err.message + '): ' +
           req.headers.host + req.url
         );
@@ -65,7 +65,7 @@ var KindaProxy = KindaObject.extend('KindaProxy', function() {
         res.end('Internal Error');
       });
     } else {
-      util.error('Not Found Error: ' + req.headers.host + req.url);
+      log.error('Not Found Error: ' + req.headers.host + req.url);
       res.statusCode = 404
       res.end('Not Found');
       return;

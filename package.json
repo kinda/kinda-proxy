@@ -14,9 +14,9 @@
   "license": "MIT",
   "dependencies": {
     "http-proxy": "^1.3.0",
-    "kinda-config": "https://github.com/kinda/kinda-config/tarball/master",
+    "kinda-config": "kinda/kinda-config",
     "kinda-object": "^0.1.2",
-    "kinda-util": "https://github.com/kinda/kinda-util/tarball/master",
+    "kinda-log": "kinda/kinda-log",
     "lodash": "^2.4.1"
   }
 }
